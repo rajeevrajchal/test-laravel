@@ -59,10 +59,15 @@ class TodoController extends Controller
         $todo->save();
         return response()->json($todo, 200);
     }
-
+ 
     public function destroy($id)
     {
         try {
+
+            // permanent delete
+            // $todo = Todo::withTrashed()->findOrFail($id);
+            // $todo->forceDelete();
+            
             $todo = Todo::findOrFail($id);
             $todo->delete();
             return response()->json(["data" => $todo, "message" => 'Deleted Successfully'], 200);

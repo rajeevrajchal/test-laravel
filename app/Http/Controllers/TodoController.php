@@ -49,7 +49,7 @@ class TodoController extends Controller
         return response()->json($todo, 201);
     }
 
-    public function changeCompleteStatus(Request $request, $id)
+    public function changeCompleteStatus($id)
     {
         $todo = Todo::findOrFail($id);
         if (!$todo) {
@@ -58,5 +58,16 @@ class TodoController extends Controller
         $todo->completed = !$todo->completed;
         $todo->save();
         return response()->json($todo, 200);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $todo = Todo::findOrFail($id);
+            $todo->delete();
+            return response()->json(["data" => $todo, "message" => 'Deleted Successfully'], 200);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
